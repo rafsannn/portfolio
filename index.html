@@ -1,1456 +1,411 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Rafsan Rahman — Portfolio</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=Bebas+Neue&display=swap" rel="stylesheet">
-<style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  :root {
-    --bg: #080b0f;
-    --bg2: #0d1117;
-    --bg3: #131920;
-    --border: rgba(255,255,255,0.07);
-    --border2: rgba(255,255,255,0.12);
-    --text: #e8edf2;
-    --muted: #6b7a8a;
-    --accent: #4af0c4;
-    --accent2: #1a7a5e;
-    --accent-dim: rgba(74,240,196,0.08);
-    --accent-dim2: rgba(74,240,196,0.15);
-    --red: #ff6b6b;
-    --amber: #f5a623;
-  }
-
-  html { scroll-behavior: smooth; }
-
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 16px;
-    line-height: 1.6;
-    overflow-x: hidden;
-  }
-
-  /* Noise texture overlay */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-    pointer-events: none;
-    z-index: 0;
-    opacity: 0.4;
-  }
-
-  /* Grid lines background */
-  .grid-bg {
-    position: fixed;
-    inset: 0;
-    background-image:
-      linear-gradient(rgba(74,240,196,0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(74,240,196,0.03) 1px, transparent 1px);
-    background-size: 60px 60px;
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  /* Radial glow */
-  .glow-orb {
-    position: fixed;
-    width: 600px;
-    height: 600px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(74,240,196,0.04) 0%, transparent 70%);
-    top: -100px;
-    right: -100px;
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  /* ========= NAV ========= */
-  nav {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 100;
-    padding: 1.25rem 3rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-bottom: 1px solid var(--border);
-    background: rgba(8,11,15,0.85);
-    backdrop-filter: blur(16px);
-  }
-
-  .nav-logo {
-    font-family: 'DM Mono', monospace;
-    font-size: 13px;
-    color: var(--accent);
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-  }
-
-  .nav-links {
-    display: flex;
-    gap: 2.5rem;
-    list-style: none;
-  }
-
-  .nav-links a {
-    font-family: 'DM Mono', monospace;
-    font-size: 12px;
-    letter-spacing: 0.08em;
-    color: var(--muted);
-    text-decoration: none;
-    text-transform: uppercase;
-    transition: color 0.2s;
-  }
-
-  .nav-links a:hover { color: var(--accent); }
-
-  .nav-status {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    color: var(--muted);
-  }
-
-  .status-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--accent);
-    animation: pulse 2s ease-in-out infinite;
-  }
-
-  @keyframes pulse {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.5; transform: scale(0.85); }
-  }
-
-  /* ========= MAIN WRAPPER ========= */
-  main {
-    position: relative;
-    z-index: 1;
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 0 3rem;
-  }
-
-  section {
-    padding: 6rem 0;
-  }
-
-  /* ========= HERO ========= */
-  #hero {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding-top: 5rem;
-    position: relative;
-  }
-
-  .hero-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: var(--accent-dim);
-    border: 1px solid var(--accent2);
-    border-radius: 2px;
-    padding: 5px 12px;
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    color: var(--accent);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    margin-bottom: 2rem;
-    animation: fadeUp 0.6s ease forwards;
-  }
-
-  .hero-name {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(5rem, 10vw, 9.5rem);
-    font-weight: 400;
-    line-height: 0.92;
-    letter-spacing: 0.04em;
-    margin-bottom: 1.5rem;
-    animation: fadeUp 0.6s 0.1s ease both;
-  }
-
-  .hero-name span {
-    color: var(--accent);
-    display: block;
-  }
-
-  .hero-tagline {
-    font-size: 1.15rem;
-    color: var(--muted);
-    max-width: 520px;
-    line-height: 1.7;
-    margin-bottom: 3rem;
-    animation: fadeUp 0.6s 0.2s ease both;
-  }
-
-  .hero-tagline em {
-    color: var(--text);
-    font-style: normal;
-  }
-
-  .hero-cta {
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
-    animation: fadeUp 0.6s 0.3s ease both;
-  }
-
-  .btn-primary {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: var(--accent);
-    color: #080b0f;
-    padding: 12px 24px;
-    font-family: 'DM Mono', monospace;
-    font-size: 12px;
-    font-weight: 500;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    text-decoration: none;
-    border-radius: 2px;
-    transition: all 0.2s;
-  }
-
-  .btn-primary:hover {
-    background: #6dffd4;
-    transform: translateY(-1px);
-  }
-
-  .btn-outline {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: transparent;
-    color: var(--text);
-    padding: 12px 24px;
-    font-family: 'DM Mono', monospace;
-    font-size: 12px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    text-decoration: none;
-    border: 1px solid var(--border2);
-    border-radius: 2px;
-    transition: all 0.2s;
-  }
-
-  .btn-outline:hover {
-    border-color: var(--accent);
-    color: var(--accent);
-  }
-
-  /* Hero side decorations */
-  .hero-meta {
-    position: absolute;
-    right: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-    animation: fadeLeft 0.8s 0.4s ease both;
-  }
-
-  .meta-item {
-    text-align: right;
-  }
-
-  .meta-label {
-    font-family: 'DM Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 2px;
-  }
-
-  .meta-value {
-    font-family: 'DM Mono', monospace;
-    font-size: 13px;
-    color: var(--text);
-  }
-
-  /* scroll indicator */
-  .scroll-indicator {
-    position: absolute;
-    bottom: 2rem;
-    left: 0;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    color: var(--muted);
-    letter-spacing: 0.1em;
-    animation: fadeUp 1s 0.8s ease both;
-  }
-
-  .scroll-line {
-    width: 40px;
-    height: 1px;
-    background: var(--muted);
-    position: relative;
-    overflow: hidden;
-  }
-
-  .scroll-line::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: var(--accent);
-    animation: scrollAnim 2s ease-in-out infinite;
-  }
-
-  @keyframes scrollAnim {
-    0% { left: -100%; }
-    100% { left: 100%; }
-  }
-
-  /* ========= SECTION HEADERS ========= */
-  .section-header {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin-bottom: 3.5rem;
-  }
-
-  .section-num {
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    color: var(--accent);
-    letter-spacing: 0.15em;
-  }
-
-  .section-title {
-    font-family: 'Syne', sans-serif;
-    font-size: 2.2rem;
-    font-weight: 700;
-    letter-spacing: -0.02em;
-  }
-
-  .section-line {
-    flex: 1;
-    height: 1px;
-    background: var(--border);
-  }
-
-  /* ========= ABOUT ========= */
-  #about .about-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 4rem;
-    align-items: start;
-  }
-
-  .about-text p {
-    color: var(--muted);
-    font-size: 1.05rem;
-    margin-bottom: 1.2rem;
-    line-height: 1.8;
-  }
-
-  .about-text p em {
-    color: var(--text);
-    font-style: normal;
-  }
-
-  .about-interests {
-    margin-top: 2rem;
-  }
-
-  .interests-label {
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 1rem;
-  }
-
-  .interest-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-
-  .tag {
-    background: var(--bg3);
-    border: 1px solid var(--border);
-    border-radius: 2px;
-    padding: 5px 12px;
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    color: var(--muted);
-    letter-spacing: 0.05em;
-    transition: all 0.2s;
-  }
-
-  .tag:hover {
-    border-color: var(--accent2);
-    color: var(--accent);
-    background: var(--accent-dim);
-  }
-
-  .about-stats {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1px;
-    background: var(--border);
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    overflow: hidden;
-  }
-
-  .stat-box {
-    background: var(--bg2);
-    padding: 1.75rem;
-  }
-
-  .stat-num {
-    font-family: 'Syne', sans-serif;
-    font-size: 2.5rem;
-    font-weight: 800;
-    color: var(--accent);
-    line-height: 1;
-    margin-bottom: 0.4rem;
-  }
-
-  .stat-desc {
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 0.08em;
-    color: var(--muted);
-    text-transform: uppercase;
-  }
-
-  /* ========= SKILLS ========= */
-  #skills .skills-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1px;
-    background: var(--border);
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    overflow: hidden;
-  }
-
-  .skill-group {
-    background: var(--bg2);
-    padding: 2rem;
-    transition: background 0.2s;
-  }
-
-  .skill-group:hover {
-    background: var(--bg3);
-  }
-
-  .skill-group-icon {
-    font-size: 22px;
-    margin-bottom: 1rem;
-    display: block;
-  }
-
-  .skill-group-title {
-    font-family: 'Syne', sans-serif;
-    font-size: 1rem;
-    font-weight: 600;
-    margin-bottom: 1rem;
-    color: var(--text);
-  }
-
-  .skill-list {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
-
-  .skill-list li {
-    font-family: 'DM Mono', monospace;
-    font-size: 12px;
-    color: var(--muted);
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .skill-list li::before {
-    content: '';
-    width: 4px;
-    height: 4px;
-    background: var(--accent2);
-    border-radius: 50%;
-    flex-shrink: 0;
-  }
-
-  /* ========= EXPERIENCE ========= */
-  .exp-list {
-    display: flex;
-    flex-direction: column;
-    gap: 1px;
-    background: var(--border);
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    overflow: hidden;
-  }
-
-  .exp-card {
-    background: var(--bg2);
-    padding: 2rem;
-    display: grid;
-    grid-template-columns: 240px 1fr;
-    gap: 2rem;
-    transition: background 0.2s;
-  }
-
-  .exp-card:hover { background: var(--bg3); }
-
-  .exp-org {
-    font-family: 'DM Mono', monospace;
-    font-size: 12px;
-    color: var(--accent);
-    margin-bottom: 6px;
-    line-height: 1.5;
-  }
-
-  .exp-date {
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    color: var(--muted);
-    letter-spacing: 0.05em;
-  }
-
-  .exp-role {
-    font-family: 'Syne', sans-serif;
-    font-size: 1.05rem;
-    font-weight: 600;
-    margin-bottom: 1rem;
-    color: var(--text);
-  }
-
-  .exp-bullets {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
-
-  .exp-bullets li {
-    font-size: 0.9rem;
-    color: var(--muted);
-    line-height: 1.7;
-    padding-left: 1rem;
-    position: relative;
-  }
-
-  .exp-bullets li::before {
-    content: '—';
-    position: absolute;
-    left: 0;
-    color: var(--accent2);
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
-  }
-
-  /* ========= EDUCATION ========= */
-  .edu-list {
-    display: flex;
-    flex-direction: column;
-    gap: 1px;
-    background: var(--border);
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    overflow: hidden;
-  }
-
-  .edu-card {
-    background: var(--bg2);
-    padding: 1.75rem 2rem;
-    display: grid;
-    grid-template-columns: 240px 1fr;
-    gap: 2rem;
-    align-items: center;
-    transition: background 0.2s;
-  }
-
-  .edu-card:hover { background: var(--bg3); }
-
-  .edu-year {
-    font-family: 'DM Mono', monospace;
-    font-size: 12px;
-    color: var(--muted);
-    letter-spacing: 0.05em;
-  }
-
-  .edu-school {
-    font-family: 'Syne', sans-serif;
-    font-size: 1rem;
-    font-weight: 600;
-    color: var(--text);
-    margin-bottom: 4px;
-  }
-
-  .edu-degree {
-    font-size: 0.9rem;
-    color: var(--muted);
-    margin-bottom: 6px;
-  }
-
-  .edu-grade {
-    font-family: 'DM Mono', monospace;
-    font-size: 12px;
-    color: var(--muted);
-  }
-
-  .edu-grade span {
-    color: var(--accent);
-    font-weight: 500;
-  }
-
-  @media (max-width: 768px) {
-    .exp-card, .edu-card { grid-template-columns: 1fr; gap: 0.5rem; }
-  }
-
-  /* ========= PROJECTS ========= */
-  #projects .projects-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1px;
-    background: var(--border);
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    overflow: hidden;
-  }
-
-  .project-card {
-    background: var(--bg2);
-    padding: 2rem;
-    position: relative;
-    transition: background 0.25s;
-    text-decoration: none;
-    color: inherit;
-    display: block;
-    overflow: hidden;
-  }
-
-  .project-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: var(--accent);
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.3s ease;
-  }
-
-  .project-card:hover {
-    background: var(--bg3);
-  }
-
-  .project-card:hover::before {
-    transform: scaleX(1);
-  }
-
-  .project-lang {
-    font-family: 'DM Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 1rem;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-
-  .project-lang::before {
-    content: '';
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: currentColor;
-  }
-
-  .project-name {
-    font-family: 'Syne', sans-serif;
-    font-size: 1.2rem;
-    font-weight: 700;
-    margin-bottom: 0.75rem;
-    color: var(--text);
-  }
-
-  .project-desc {
-    font-size: 0.9rem;
-    color: var(--muted);
-    line-height: 1.7;
-    margin-bottom: 1.5rem;
-  }
-
-  .project-arrow {
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    color: var(--accent);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-  }
-
-  .project-card.featured {
-    grid-column: 1 / -1;
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 2rem;
-    align-items: start;
-  }
-
-  .project-featured-badge {
-    font-family: 'DM Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--amber);
-    border: 1px solid rgba(245,166,35,0.3);
-    background: rgba(245,166,35,0.07);
-    padding: 4px 10px;
-    border-radius: 2px;
-    white-space: nowrap;
-  }
-
-  /* ========= CONTACT ========= */
-  #contact {
-    padding-bottom: 8rem;
-  }
-
-  .contact-layout {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 4rem;
-    align-items: start;
-  }
-
-  .contact-intro {
-    font-size: 1.6rem;
-    font-family: 'Syne', sans-serif;
-    font-weight: 700;
-    line-height: 1.3;
-    letter-spacing: -0.02em;
-    margin-bottom: 1.5rem;
-  }
-
-  .contact-intro span {
-    color: var(--accent);
-  }
-
-  .contact-body {
-    color: var(--muted);
-    line-height: 1.8;
-    margin-bottom: 2rem;
-  }
-
-  .social-links {
-    display: flex;
-    flex-direction: column;
-    gap: 1px;
-    background: var(--border);
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    overflow: hidden;
-  }
-
-  .social-link {
-    background: var(--bg2);
-    padding: 1.25rem 1.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    text-decoration: none;
-    color: var(--text);
-    transition: background 0.2s;
-  }
-
-  .social-link:hover {
-    background: var(--bg3);
-  }
-
-  .social-link:hover .social-arrow {
-    transform: translate(3px, -3px);
-    color: var(--accent);
-  }
-
-  .social-name {
-    font-family: 'DM Mono', monospace;
-    font-size: 13px;
-  }
-
-  .social-handle {
-    font-family: 'DM Mono', monospace;
-    font-size: 12px;
-    color: var(--muted);
-  }
-
-  .social-arrow {
-    font-size: 16px;
-    color: var(--muted);
-    transition: all 0.2s;
-  }
-
-  /* ========= FOOTER ========= */
-  footer {
-    position: relative;
-    z-index: 1;
-    border-top: 1px solid var(--border);
-    padding: 2rem 3rem;
-    max-width: 1100px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .footer-copy {
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    color: var(--muted);
-    letter-spacing: 0.08em;
-  }
-
-  .footer-copy span {
-    color: var(--accent);
-  }
-
-  .footer-coords {
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    color: var(--muted);
-    letter-spacing: 0.05em;
-  }
-
-  /* ========= ANIMATIONS ========= */
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
-  @keyframes fadeLeft {
-    from { opacity: 0; transform: translateX(20px); }
-    to   { opacity: 1; transform: translateX(0); }
-  }
-
-  .reveal {
-    opacity: 0;
-    transform: translateY(24px);
-    transition: opacity 0.6s ease, transform 0.6s ease;
-  }
-
-  .reveal.visible {
-    opacity: 1;
-    transform: none;
-  }
-
-  /* ========= HAMBURGER MENU ========= */
-  .hamburger {
-    display: none;
-    flex-direction: column;
-    justify-content: center;
-    gap: 5px;
-    width: 36px;
-    height: 36px;
-    cursor: pointer;
-    background: none;
-    border: none;
-    padding: 4px;
-    z-index: 200;
-  }
-
-  .hamburger span {
-    display: block;
-    width: 22px;
-    height: 1.5px;
-    background: var(--text);
-    transition: all 0.25s ease;
-    transform-origin: center;
-  }
-
-  .hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
-  .hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
-  .hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
-
-  .mobile-menu {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(8,11,15,0.97);
-    backdrop-filter: blur(20px);
-    z-index: 150;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 2.5rem;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.25s ease;
-  }
-
-  .mobile-menu.open {
-    opacity: 1;
-    pointer-events: all;
-  }
-
-  .mobile-menu a {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 3rem;
-    letter-spacing: 0.1em;
-    color: var(--muted);
-    text-decoration: none;
-    transition: color 0.2s;
-  }
-
-  .mobile-menu a:hover { color: var(--accent); }
-
-  .mobile-menu-status {
-    margin-top: 1rem;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    color: var(--muted);
-  }
-
-  /* ========= RESPONSIVE ========= */
-  @media (max-width: 768px) {
-    /* Nav */
-    nav { padding: 1rem 1.25rem; }
-    .nav-links { display: none; }
-    .nav-status { display: none; }
-    .hamburger { display: flex; }
-
-    /* Layout */
-    main { padding: 0 1.25rem; }
-    section { padding: 4rem 0; }
-    #contact { padding-bottom: 5rem; }
-
-    /* Hero */
-    #hero { padding-top: 4rem; min-height: 100svh; }
-    .hero-badge { font-size: 10px; padding: 4px 10px; margin-bottom: 1.25rem; }
-    .hero-name { font-size: clamp(3.8rem, 18vw, 5.5rem); margin-bottom: 1rem; }
-    .hero-tagline { font-size: 0.95rem; margin-bottom: 2rem; }
-    .hero-cta { flex-direction: column; gap: 0.75rem; }
-    .btn-primary, .btn-outline { width: 100%; justify-content: center; padding: 14px 20px; font-size: 11px; }
-    .hero-meta { display: none; }
-    .scroll-indicator { bottom: 1.5rem; font-size: 10px; }
-
-    /* Section headers */
-    .section-title { font-size: 1.7rem; }
-    .section-header { margin-bottom: 2rem; }
-
-    /* About */
-    #about .about-grid { grid-template-columns: 1fr; gap: 2rem; }
-    .about-stats { grid-template-columns: 1fr 1fr; }
-    .stat-box { padding: 1.25rem; }
-    .stat-num { font-size: 2rem; }
-
-    /* Skills */
-    #skills .skills-grid { grid-template-columns: 1fr; }
-    .skill-group { padding: 1.5rem; }
-
-    /* Experience */
-    .exp-card {
-      grid-template-columns: 1fr;
-      gap: 0.4rem;
-      padding: 1.5rem;
-    }
-    .exp-date { margin-bottom: 0.75rem; }
-
-    /* Education */
-    .edu-card {
-      grid-template-columns: 1fr;
-      gap: 0.4rem;
-      padding: 1.25rem 1.5rem;
-    }
-    .edu-year { margin-bottom: 0.25rem; }
-
-    /* Projects */
-    #projects .projects-grid { grid-template-columns: 1fr; }
-    .project-card { padding: 1.5rem; }
-    .project-card.featured { grid-column: 1; display: block; }
-    .project-featured-badge { display: inline-block; margin-bottom: 0.75rem; }
-
-    /* Contact */
-    .contact-layout { grid-template-columns: 1fr; gap: 2rem; }
-    .contact-intro { font-size: 1.35rem; }
-    .btn-primary { display: inline-flex; width: auto; }
-    .social-link { padding: 1rem 1.25rem; }
-    .social-handle { display: none; }
-
-    /* Footer */
-    footer { flex-direction: column; gap: 0.75rem; text-align: center; padding: 1.75rem 1.25rem; }
-    .footer-coords { display: none; }
-  }
-
-  @media (max-width: 380px) {
-    .hero-name { font-size: 3.4rem; }
-    .about-stats { grid-template-columns: 1fr; }
-  }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Rafsan Rahman Rumman — CS undergrad, developer, and builder from Chattogram, Bangladesh." />
+  <meta name="author" content="Rafsan Rahman Rumman" />
+  <meta property="og:title" content="Rafsan Rahman Rumman — Portfolio" />
+  <meta property="og:description" content="CS undergrad · C/C++, Java & Python · Chattogram, Bangladesh" />
+  <meta property="og:type" content="website" />
+  <title>Rafsan Rahman Rumman — Portfolio</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/reset.css" />
+  <link rel="stylesheet" href="css/tokens.css" />
+  <link rel="stylesheet" href="css/layout.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/sections.css" />
+  <link rel="stylesheet" href="css/animations.css" />
+  <link rel="stylesheet" href="css/responsive.css" />
 </head>
 <body>
-<div class="grid-bg"></div>
-<div class="glow-orb"></div>
 
-<!-- NAV -->
-<nav>
-  <div class="nav-logo">RR / Portfolio</div>
-  <ul class="nav-links">
-    <li><a href="#about">About</a></li>
-    <li><a href="#skills">Skills</a></li>
-    <li><a href="#experience">Experience</a></li>
-    <li><a href="#education">Education</a></li>
-    <li><a href="#projects">Projects</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ul>
-  <div class="nav-status">
-    <div class="status-dot"></div>
-    Available for opportunities
+  <!-- Background decorations -->
+  <div class="grid-bg" aria-hidden="true"></div>
+  <div class="glow-orb" aria-hidden="true"></div>
+
+  <!-- Navigation -->
+  <nav id="navbar" role="navigation" aria-label="Main navigation">
+    <div class="nav-logo">RR / Portfolio</div>
+    <ul class="nav-links" role="list">
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <div class="nav-status" aria-label="Availability status">
+      <div class="status-dot" aria-hidden="true"></div>
+      Available for opportunities
+    </div>
+    <button class="hamburger" id="hamburger" aria-label="Toggle mobile menu" aria-expanded="false" aria-controls="mobileMenu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- Mobile menu overlay -->
+  <div class="mobile-menu" id="mobileMenu" role="dialog" aria-modal="true" aria-label="Mobile navigation" aria-hidden="true">
+    <a href="#about" class="mobile-nav-link">About</a>
+    <a href="#skills" class="mobile-nav-link">Skills</a>
+    <a href="#experience" class="mobile-nav-link">Experience</a>
+    <a href="#education" class="mobile-nav-link">Education</a>
+    <a href="#projects" class="mobile-nav-link">Projects</a>
+    <a href="#contact" class="mobile-nav-link">Contact</a>
+    <div class="mobile-menu-status">
+      <div class="status-dot" aria-hidden="true"></div>
+      Available for opportunities
+    </div>
   </div>
-  <button class="hamburger" id="hamburger" aria-label="Open menu">
-    <span></span><span></span><span></span>
-  </button>
-</nav>
 
-<!-- MOBILE MENU -->
-<div class="mobile-menu" id="mobileMenu">
-  <a href="#about" class="mobile-nav-link">About</a>
-  <a href="#skills" class="mobile-nav-link">Skills</a>
-  <a href="#experience" class="mobile-nav-link">Experience</a>
-  <a href="#education" class="mobile-nav-link">Education</a>
-  <a href="#projects" class="mobile-nav-link">Projects</a>
-  <a href="#contact" class="mobile-nav-link">Contact</a>
-  <div class="mobile-menu-status">
-    <div class="status-dot"></div>
-    Available for opportunities
-  </div>
-</div>
+  <!-- Page content -->
+  <main id="main-content">
 
-<!-- HERO -->
-<main>
-  <section id="hero">
-    <div class="hero-badge">
-      <span>&#9654;</span>
-      CS Undergrad · Southern University Bangladesh · CGPA 3.63
-    </div>
-
-    <h1 class="hero-name">
-      Rafsan<br>
-      <span>Rahman Rumman</span>
-    </h1>
-
-    <p class="hero-tagline">
-      Developer, <em>problem solver</em>, and class representative from Chattogram. 
-      Building things with <em>C/C++, Java & Python</em> — and dreaming about aircraft in between.
-    </p>
-
-    <div class="hero-cta">
-      <a href="#projects" class="btn-primary">View Projects →</a>
-      <a href="#contact" class="btn-outline">Get in Touch</a>
-    </div>
-
-    <div class="hero-meta">
-      <div class="meta-item">
-        <div class="meta-label">Location</div>
-        <div class="meta-value">Chattogram, BD</div>
+    <!-- Hero -->
+    <section id="hero" aria-label="Introduction">
+      <div class="hero-badge" aria-label="Current status">
+        <span aria-hidden="true">&#9654;</span>
+        CS Undergrad · Southern University Bangladesh · CGPA 3.63
       </div>
-      <div class="meta-item">
-        <div class="meta-label">Status</div>
-        <div class="meta-value">Spring 2026</div>
+      <h1 class="hero-name">
+        Rafsan<br>
+        <span>Rahman Rumman</span>
+      </h1>
+      <p class="hero-tagline">
+        Developer, <em>problem solver</em>, and builder from Chattogram.
+        Writing <em>C/C++, Java & Python</em> — and dreaming about aircraft in between.
+      </p>
+      <div class="hero-cta">
+        <a href="#projects" class="btn btn--primary">View Projects →</a>
+        <a href="#contact" class="btn btn--outline">Get in Touch</a>
       </div>
-      <div class="meta-item">
-        <div class="meta-label">GitHub</div>
-        <div class="meta-value">rafsannn</div>
+      <div class="hero-meta" aria-hidden="true">
+        <div class="meta-item">
+          <div class="meta-label">Location</div>
+          <div class="meta-value">Chattogram, BD</div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-label">Status</div>
+          <div class="meta-value">Spring 2026</div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-label">GitHub</div>
+          <div class="meta-value">rafsannn</div>
+        </div>
       </div>
-    </div>
+      <div class="scroll-indicator" aria-hidden="true">
+        <div class="scroll-line"></div>
+        Scroll to explore
+      </div>
+    </section>
 
-    <div class="scroll-indicator">
-      <div class="scroll-line"></div>
-      Scroll to explore
-    </div>
-  </section>
-
-  <!-- ABOUT -->
-  <section id="about">
-    <div class="section-header reveal">
-      <span class="section-num">01</span>
-      <h2 class="section-title">About Me</h2>
-      <div class="section-line"></div>
-    </div>
-
-    <div class="about-grid">
-      <div class="about-text reveal">
-        <p>
-          I'm Rafsan — a <em>CS undergrad at Southern University Bangladesh</em> with a CGPA of 3.63, currently in my second semester. I write code that actually works, and I don't sugarcoat things.
-        </p>
-        <p>
-          As the <em>class representative</em>, I coordinate between students and faculty, organize study groups, and still find time to push commits. I've also served as an organizing team member for the <em>Batch 66 Freshers' Reception</em> and managed gifts & logistics for a departmental tour to Bandarban Nilachal.
-        </p>
-        <p>
-          Currently learning Java, diving into Android development, and building an online marketplace called <em>Zenocart</em>. When I'm not staring at a compiler, I'm looking up at the sky — deeply passionate about <em>aviation, aerospace, and astronomy</em>. I also play guitar and obsess over hardware benchmarking more than a normal person should.
-        </p>
-
-        <div class="about-interests">
-          <div class="interests-label">Interests & Stack</div>
-          <div class="interest-tags">
-            <span class="tag">Aviation</span>
-            <span class="tag">Astronomy</span>
-            <span class="tag">Guitar</span>
-            <span class="tag">Android Dev</span>
-            <span class="tag">Java</span>
-            <span class="tag">C/C++</span>
-            <span class="tag">Python</span>
-            <span class="tag">Workflow Automation</span>
-            <span class="tag">Emulators</span>
+    <!-- About -->
+    <section id="about" aria-labelledby="about-heading">
+      <div class="section-header reveal">
+        <span class="section-num" aria-hidden="true">01</span>
+        <h2 class="section-title" id="about-heading">About Me</h2>
+        <div class="section-line" aria-hidden="true"></div>
+      </div>
+      <div class="about-grid">
+        <div class="about-text reveal">
+          <p>
+            I'm Rafsan — a <em>CS undergrad at Southern University Bangladesh</em> with a CGPA of 3.63.
+            I write code that actually works, and I don't sugarcoat things.
+          </p>
+          <p>
+            Currently learning Java, exploring Android development, and building an online marketplace
+            called <em>Zenocart</em> from the ground up.
+          </p>
+          <p>
+            Outside of code, I'm deeply passionate about <em>aviation, aerospace, and astronomy</em>.
+            I also play guitar and obsess over hardware benchmarking more than is reasonable.
+          </p>
+          <div class="about-interests">
+            <div class="interests-label">Interests</div>
+            <div class="interest-tags" role="list">
+              <span class="tag" role="listitem">Aviation</span>
+              <span class="tag" role="listitem">Astronomy</span>
+              <span class="tag" role="listitem">Guitar</span>
+              <span class="tag" role="listitem">Android Dev</span>
+              <span class="tag" role="listitem">Java</span>
+              <span class="tag" role="listitem">C/C++</span>
+              <span class="tag" role="listitem">Python</span>
+              <span class="tag" role="listitem">Workflow Automation</span>
+            </div>
+          </div>
+        </div>
+        <div class="about-stats reveal" role="list" aria-label="Key stats">
+          <div class="stat-box" role="listitem">
+            <div class="stat-num">8</div>
+            <div class="stat-desc">GitHub Repos</div>
+          </div>
+          <div class="stat-box" role="listitem">
+            <div class="stat-num">3</div>
+            <div class="stat-desc">Core Languages</div>
+          </div>
+          <div class="stat-box" role="listitem">
+            <div class="stat-num">3.63</div>
+            <div class="stat-desc">Current CGPA</div>
+          </div>
+          <div class="stat-box" role="listitem">
+            <div class="stat-num">BD</div>
+            <div class="stat-desc">Based in Chattogram</div>
           </div>
         </div>
       </div>
+    </section>
 
-      <div class="about-stats reveal">
-        <div class="stat-box">
-          <div class="stat-num">8</div>
-          <div class="stat-desc">GitHub Repos</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-num">3</div>
-          <div class="stat-desc">Core Languages</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-num">2nd</div>
-          <div class="stat-desc">Semester · Spring '26</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-num">CR</div>
-          <div class="stat-desc">Class Representative</div>
-        </div>
+    <!-- Skills -->
+    <section id="skills" aria-labelledby="skills-heading">
+      <div class="section-header reveal">
+        <span class="section-num" aria-hidden="true">02</span>
+        <h2 class="section-title" id="skills-heading">Skills</h2>
+        <div class="section-line" aria-hidden="true"></div>
       </div>
-    </div>
-  </section>
-
-  <!-- SKILLS -->
-  <section id="skills">
-    <div class="section-header reveal">
-      <span class="section-num">02</span>
-      <h2 class="section-title">Skills</h2>
-      <div class="section-line"></div>
-    </div>
-
-    <div class="skills-grid reveal">
-      <div class="skill-group">
-        <span class="skill-group-icon">⌨</span>
-        <div class="skill-group-title">Languages</div>
-        <ul class="skill-list">
-          <li>C / C++</li>
-          <li>Java</li>
-          <li>Python</li>
-          <li>HTML / CSS</li>
-        </ul>
-      </div>
-
-      <div class="skill-group">
-        <span class="skill-group-icon">🛠</span>
-        <div class="skill-group-title">Tools & Environments</div>
-        <ul class="skill-list">
-          <li>VS Code + MinGW</li>
-          <li>IntelliJ IDEA</li>
-          <li>Android Studio</li>
-          <li>Microsoft Visio</li>
-          <li>Git & GitHub</li>
-        </ul>
-      </div>
-
-      <div class="skill-group">
-        <span class="skill-group-icon">◈</span>
-        <div class="skill-group-title">Concepts & Areas</div>
-        <ul class="skill-list">
-          <li>OOP</li>
-          <li>Digital Logic Design</li>
-          <li>Discrete Mathematics</li>
-          <li>Data Structures</li>
-          <li>Workflow Automation</li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <!-- EXPERIENCE -->
-  <section id="experience">
-    <div class="section-header reveal">
-      <span class="section-num">03</span>
-      <h2 class="section-title">Experience</h2>
-      <div class="section-line"></div>
-    </div>
-
-    <div class="exp-list reveal">
-
-      <div class="exp-card">
-        <div class="exp-left">
-          <div class="exp-org">Southern University Bangladesh</div>
-          <div class="exp-date">07/2025 — Present</div>
+      <div class="skills-grid reveal">
+        <div class="skill-group">
+          <span class="skill-group-icon" aria-hidden="true">⌨</span>
+          <div class="skill-group-title">Languages</div>
+          <ul class="skill-list">
+            <li>C / C++</li>
+            <li>Java</li>
+            <li>Python</li>
+            <li>HTML / CSS</li>
+          </ul>
         </div>
-        <div class="exp-right">
-          <div class="exp-role">Class Representative (CR)</div>
-          <ul class="exp-bullets">
-            <li>Coordinated communication between students and faculty to resolve academic concerns and enhance classroom engagement.</li>
-            <li>Organized peer study groups and collaborative sessions to increase knowledge retention.</li>
-            <li>Monitored attendance and participation trends to promote a supportive learning environment.</li>
+        <div class="skill-group">
+          <span class="skill-group-icon" aria-hidden="true">🛠</span>
+          <div class="skill-group-title">Tools & Environments</div>
+          <ul class="skill-list">
+            <li>VS Code + MinGW</li>
+            <li>IntelliJ IDEA</li>
+            <li>Android Studio</li>
+            <li>Microsoft Visio</li>
+            <li>Git & GitHub</li>
+          </ul>
+        </div>
+        <div class="skill-group">
+          <span class="skill-group-icon" aria-hidden="true">◈</span>
+          <div class="skill-group-title">Concepts & Areas</div>
+          <ul class="skill-list">
+            <li>OOP</li>
+            <li>Digital Logic Design</li>
+            <li>Discrete Mathematics</li>
+            <li>Data Structures</li>
+            <li>Workflow Automation</li>
           </ul>
         </div>
       </div>
+    </section>
 
-      <div class="exp-card">
-        <div class="exp-left">
-          <div class="exp-org">Batch 66 Freshers' Reception · SUBCC</div>
-          <div class="exp-date">02/2026</div>
+    <!-- Experience -->
+    <section id="experience" aria-labelledby="experience-heading">
+      <div class="section-header reveal">
+        <span class="section-num" aria-hidden="true">03</span>
+        <h2 class="section-title" id="experience-heading">Experience</h2>
+        <div class="section-line" aria-hidden="true"></div>
+      </div>
+      <div class="exp-list reveal">
+
+        <div class="exp-card">
+          <div class="exp-left">
+            <div class="exp-org">Batch 66 Freshers' Reception · SUBCC</div>
+            <div class="exp-date"><time datetime="2026-02">02/2026</time></div>
+          </div>
+          <div class="exp-right">
+            <div class="exp-role">Organizing Team Member</div>
+            <ul class="exp-bullets">
+              <li>Managed on-ground event logistics including procurement and setup of decoration materials for the university auditorium.</li>
+              <li>Coordinated the "Prize & Gift" segment, ensuring all award materials were organized and presented on schedule.</li>
+            </ul>
+          </div>
         </div>
-        <div class="exp-right">
-          <div class="exp-role">Organizing Team Member</div>
-          <ul class="exp-bullets">
-            <li>Managed on-ground event logistics including procurement and setup of decoration materials for the university auditorium.</li>
-            <li>Coordinated the "Prize & Gift" segment, ensuring all award materials were organized and presented on schedule.</li>
-          </ul>
+
+        <div class="exp-card">
+          <div class="exp-left">
+            <div class="exp-org">Departmental Tour, Bandarban Nilachal · SUBCC</div>
+            <div class="exp-date"><time datetime="2025-11">11/2025</time></div>
+          </div>
+          <div class="exp-right">
+            <div class="exp-role">Gift Manager</div>
+            <ul class="exp-bullets">
+              <li>Spearheaded the selection and procurement of gifts and prizes for a large-scale student tour group.</li>
+              <li>Maintained precise inventory and managed live distribution of items during event segments.</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Education -->
+    <section id="education" aria-labelledby="education-heading">
+      <div class="section-header reveal">
+        <span class="section-num" aria-hidden="true">04</span>
+        <h2 class="section-title" id="education-heading">Education</h2>
+        <div class="section-line" aria-hidden="true"></div>
+      </div>
+      <div class="edu-list reveal">
+        <div class="edu-card">
+          <div class="edu-year"><time datetime="2025">2025</time> — Present</div>
+          <div class="edu-content">
+            <div class="edu-school">Southern University Bangladesh</div>
+            <div class="edu-degree">B.Sc. Computer Science & Engineering</div>
+            <div class="edu-grade">CGPA <span>3.63</span> / 4.00 · Chittagong</div>
+          </div>
+        </div>
+        <div class="edu-card">
+          <div class="edu-year"><time datetime="2023">2023</time></div>
+          <div class="edu-content">
+            <div class="edu-school">Chittagong Port College</div>
+            <div class="edu-degree">Higher Secondary Certificate — Science</div>
+            <div class="edu-grade">GPA <span>4.75</span> / 5.00 · Chittagong</div>
+          </div>
+        </div>
+        <div class="edu-card">
+          <div class="edu-year"><time datetime="2023">2023</time> — 2025</div>
+          <div class="edu-content">
+            <div class="edu-school">University of Chittagong</div>
+            <div class="edu-degree">BBA — Business Administration <span class="edu-note">Discontinued</span></div>
+            <div class="edu-grade">Chittagong</div>
+          </div>
+        </div>
+        <div class="edu-card">
+          <div class="edu-year"><time datetime="2021">2021</time></div>
+          <div class="edu-content">
+            <div class="edu-school">Garib-E-Newaz High School</div>
+            <div class="edu-degree">Secondary School Certificate</div>
+            <div class="edu-grade">GPA <span>4.83</span> / 5.00 · Chittagong</div>
+          </div>
         </div>
       </div>
+    </section>
 
-      <div class="exp-card">
-        <div class="exp-left">
-          <div class="exp-org">Departmental Tour, Bandarban Nilachal · SUBCC</div>
-          <div class="exp-date">11/2025</div>
-        </div>
-        <div class="exp-right">
-          <div class="exp-role">Gift Manager</div>
-          <ul class="exp-bullets">
-            <li>Spearheaded the selection and procurement of gifts and prizes for a large-scale student tour group.</li>
-            <li>Maintained precise inventory and managed live distribution of items during event segments.</li>
-          </ul>
-        </div>
+    <!-- Projects -->
+    <section id="projects" aria-labelledby="projects-heading">
+      <div class="section-header reveal">
+        <span class="section-num" aria-hidden="true">05</span>
+        <h2 class="section-title" id="projects-heading">Projects</h2>
+        <div class="section-line" aria-hidden="true"></div>
       </div>
+      <div class="projects-grid reveal">
 
-    </div>
-  </section>
+        <a href="https://github.com/rafsannn/CS50-Solutions" target="_blank" rel="noopener noreferrer" class="project-card project-card--featured" aria-label="CS50 Solutions - View on GitHub">
+          <div>
+            <div class="project-lang">C</div>
+            <div class="project-name">CS50 Solutions</div>
+            <p class="project-desc">
+              Complete, independently solved solutions to Harvard's CS50x problem sets — no AI assistance used.
+              Demonstrates foundational CS problem-solving and algorithmic thinking from scratch.
+            </p>
+            <div class="project-arrow">View on GitHub →</div>
+          </div>
+          <div class="project-featured-badge">★ Featured</div>
+        </a>
 
-  <!-- EDUCATION -->
-  <section id="education">
-    <div class="section-header reveal">
-      <span class="section-num">04</span>
-      <h2 class="section-title">Education</h2>
-      <div class="section-line"></div>
-    </div>
-
-    <div class="edu-list reveal">
-      <div class="edu-card">
-        <div class="edu-year">2025 — Present</div>
-        <div class="edu-content">
-          <div class="edu-school">Southern University Bangladesh</div>
-          <div class="edu-degree">B.Sc. Computer Science & Engineering</div>
-          <div class="edu-grade">CGPA <span>3.63</span> / 4.00 · Chittagong</div>
-        </div>
-      </div>
-      <div class="edu-card">
-        <div class="edu-year">2023</div>
-        <div class="edu-content">
-          <div class="edu-school">Chittagong Port College</div>
-          <div class="edu-degree">Higher Secondary Certificate — Science</div>
-          <div class="edu-grade">GPA <span>4.75</span> / 5.00 · Chittagong</div>
-        </div>
-      </div>
-      <div class="edu-card">
-        <div class="edu-year">2021</div>
-        <div class="edu-content">
-          <div class="edu-school">Garib-E-Newaz High School</div>
-          <div class="edu-degree">Secondary School Certificate</div>
-          <div class="edu-grade">GPA <span>4.83</span> / 5.00 · Chittagong</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section id="projects">
-    <div class="section-header reveal">
-      <span class="section-num">05</span>
-      <h2 class="section-title">Projects</h2>
-      <div class="section-line"></div>
-    </div>
-
-    <div class="projects-grid reveal">
-
-      <!-- Featured -->
-      <a href="https://github.com/rafsannn/CS50-Solutions" target="_blank" rel="noopener" class="project-card featured">
-        <div>
-          <div class="project-lang">C</div>
-          <div class="project-name">CS50 Solutions</div>
+        <a href="https://github.com/rafsannn/dm_guideline" target="_blank" rel="noopener noreferrer" class="project-card" aria-label="DM Guideline - View on GitHub">
+          <div class="project-lang">CSS</div>
+          <div class="project-name">DM Guideline</div>
           <p class="project-desc">
-            Complete, independently solved solutions to Harvard's CS50x problem sets — no AI assistance used. Demonstrates foundational CS problem-solving and algorithmic thinking from scratch.
+            A structured guideline resource for Discrete Mathematics — built to help peers study and navigate key concepts.
           </p>
           <div class="project-arrow">View on GitHub →</div>
-        </div>
-        <div class="project-featured-badge">★ Featured</div>
-      </a>
+        </a>
 
-      <a href="https://github.com/rafsannn/dm_guideline" target="_blank" rel="noopener" class="project-card">
-        <div class="project-lang">CSS</div>
-        <div class="project-name">DM Guideline</div>
-        <p class="project-desc">
-          A structured guideline resource for Discrete Mathematics — built to help classmates study and navigate key concepts.
-        </p>
-        <div class="project-arrow">View on GitHub →</div>
-      </a>
+        <a href="https://github.com/rafsannn/very_important_suggestion" target="_blank" rel="noopener noreferrer" class="project-card" aria-label="Very Important Suggestion - View on GitHub">
+          <div class="project-lang">HTML</div>
+          <div class="project-name">Very Important Suggestion</div>
+          <p class="project-desc">
+            An HTML-based web project reflecting hands-on frontend work and standalone resource creation.
+          </p>
+          <div class="project-arrow">View on GitHub →</div>
+        </a>
 
-      <a href="https://github.com/rafsannn/very_important_suggestion" target="_blank" rel="noopener" class="project-card">
-        <div class="project-lang">HTML</div>
-        <div class="project-name">Very Important Suggestion</div>
-        <p class="project-desc">
-          An HTML-based web project — a standalone resource or utility tool reflecting hands-on frontend work.
-        </p>
-        <div class="project-arrow">View on GitHub →</div>
-      </a>
+        <a href="https://github.com/rafsannn" target="_blank" rel="noopener noreferrer" class="project-card" aria-label="Zenocart - Coming Soon">
+          <div class="project-lang">In Progress</div>
+          <div class="project-name">Zenocart</div>
+          <p class="project-desc">
+            An online marketplace being built from the ground up — covering branding, SEO, and platform architecture.
+          </p>
+          <div class="project-arrow">Coming Soon →</div>
+        </a>
 
-      <a href="https://github.com/rafsannn" target="_blank" rel="noopener" class="project-card">
-        <div class="project-lang">In Progress</div>
-        <div class="project-name">Zenocart</div>
-        <p class="project-desc">
-          An online marketplace being built from the ground up — covering branding, SEO, and platform architecture.
-        </p>
-        <div class="project-arrow">Coming Soon →</div>
-      </a>
-
-    </div>
-  </section>
-
-  <!-- CONTACT -->
-  <section id="contact">
-    <div class="section-header reveal">
-      <span class="section-num">06</span>
-      <h2 class="section-title">Contact</h2>
-      <div class="section-line"></div>
-    </div>
-
-    <div class="contact-layout">
-      <div class="reveal">
-        <div class="contact-intro">
-          Let's build something <span>worth shipping.</span>
-        </div>
-        <p class="contact-body">
-          Whether it's a project, collaboration, or just a conversation about aviation and code — I'm open. Reach out through any of the links on the right.
-        </p>
-        <a href="https://github.com/rafsannn" target="_blank" rel="noopener" class="btn-primary">View GitHub Profile →</a>
       </div>
+    </section>
 
-      <div class="social-links reveal">
-        <a href="mailto:rafsanrahmanrumman@outlook.com" class="social-link">
-          <span class="social-name">Email</span>
-          <span class="social-handle">rafsanrahmanrumman@outlook.com</span>
-          <span class="social-arrow">↗</span>
-        </a>
-        <a href="tel:+8801516556310" class="social-link">
-          <span class="social-name">Phone</span>
-          <span class="social-handle">+880 1516 556310</span>
-          <span class="social-arrow">↗</span>
-        </a>
-        <a href="https://github.com/rafsannn" target="_blank" rel="noopener" class="social-link">
-          <span class="social-name">GitHub</span>
-          <span class="social-handle">rafsannn</span>
-          <span class="social-arrow">↗</span>
-        </a>
-        <a href="https://www.linkedin.com/in/mdrafsanrahman/" target="_blank" rel="noopener" class="social-link">
-          <span class="social-name">LinkedIn</span>
-          <span class="social-handle">mdrafsanrahman</span>
-          <span class="social-arrow">↗</span>
-        </a>
-        <a href="https://www.facebook.com/profile.php?id=61580784984803" target="_blank" rel="noopener" class="social-link">
-          <span class="social-name">Facebook</span>
-          <span class="social-handle">Md. Rafsan Rahman</span>
-          <span class="social-arrow">↗</span>
-        </a>
-        <a href="https://www.youtube.com/@rafsa.n.n" target="_blank" rel="noopener" class="social-link">
-          <span class="social-name">YouTube</span>
-          <span class="social-handle">@rafsa.n.n</span>
-          <span class="social-arrow">↗</span>
-        </a>
-        <a href="https://www.instagram.com/rafsan_rahman.py" target="_blank" rel="noopener" class="social-link">
-          <span class="social-name">Instagram</span>
-          <span class="social-handle">rafsan_rahman.py</span>
-          <span class="social-arrow">↗</span>
-        </a>
+    <!-- Contact -->
+    <section id="contact" aria-labelledby="contact-heading">
+      <div class="section-header reveal">
+        <span class="section-num" aria-hidden="true">06</span>
+        <h2 class="section-title" id="contact-heading">Contact</h2>
+        <div class="section-line" aria-hidden="true"></div>
       </div>
-    </div>
-  </section>
-</main>
+      <div class="contact-layout">
+        <div class="reveal">
+          <div class="contact-intro">
+            Let's build something <span>worth shipping.</span>
+          </div>
+          <p class="contact-body">
+            Whether it's a project, collaboration, or just a conversation about aviation and code — I'm open.
+          </p>
+          <a href="https://github.com/rafsannn" target="_blank" rel="noopener noreferrer" class="btn btn--primary">View GitHub Profile →</a>
+        </div>
+        <div class="social-links reveal" role="list" aria-label="Contact links">
+          <a href="mailto:rafsanrahmanrumman@outlook.com" class="social-link" role="listitem">
+            <span class="social-name">Email</span>
+            <span class="social-handle">rafsanrahmanrumman@outlook.com</span>
+            <span class="social-arrow" aria-hidden="true">↗</span>
+          </a>
+          <a href="tel:+8801516556310" class="social-link" role="listitem">
+            <span class="social-name">Phone</span>
+            <span class="social-handle">+880 1516 556310</span>
+            <span class="social-arrow" aria-hidden="true">↗</span>
+          </a>
+          <a href="https://github.com/rafsannn" target="_blank" rel="noopener noreferrer" class="social-link" role="listitem">
+            <span class="social-name">GitHub</span>
+            <span class="social-handle">rafsannn</span>
+            <span class="social-arrow" aria-hidden="true">↗</span>
+          </a>
+          <a href="https://www.linkedin.com/in/mdrafsanrahman/" target="_blank" rel="noopener noreferrer" class="social-link" role="listitem">
+            <span class="social-name">LinkedIn</span>
+            <span class="social-handle">mdrafsanrahman</span>
+            <span class="social-arrow" aria-hidden="true">↗</span>
+          </a>
+          <a href="https://www.facebook.com/profile.php?id=61580784984803" target="_blank" rel="noopener noreferrer" class="social-link" role="listitem">
+            <span class="social-name">Facebook</span>
+            <span class="social-handle">Rafsan Rahman Rumman</span>
+            <span class="social-arrow" aria-hidden="true">↗</span>
+          </a>
+          <a href="https://www.youtube.com/@rafsa.n.n" target="_blank" rel="noopener noreferrer" class="social-link" role="listitem">
+            <span class="social-name">YouTube</span>
+            <span class="social-handle">@rafsa.n.n</span>
+            <span class="social-arrow" aria-hidden="true">↗</span>
+          </a>
+          <a href="https://www.instagram.com/rafsan_rahman.py" target="_blank" rel="noopener noreferrer" class="social-link" role="listitem">
+            <span class="social-name">Instagram</span>
+            <span class="social-handle">rafsan_rahman.py</span>
+            <span class="social-arrow" aria-hidden="true">↗</span>
+          </a>
+        </div>
+      </div>
+    </section>
 
-<!-- FOOTER -->
-<footer>
-  <div class="footer-copy">© 2026 <span>Md. Rafsan Rahman Rumman</span> — All rights reserved</div>
-  <div class="footer-coords">22.3419° N, 91.8155° E — Chattogram, BD</div>
-</footer>
+  </main>
 
-<script>
-  const reveals = document.querySelectorAll('.reveal');
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach((entry, i) => {
-      if (entry.isIntersecting) {
-        setTimeout(() => entry.target.classList.add('visible'), i * 80);
-        observer.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.1 });
-  reveals.forEach(el => observer.observe(el));
+  <!-- Footer -->
+  <footer role="contentinfo">
+    <div class="footer-copy">© 2026 <span>Rafsan Rahman Rumman</span> — All rights reserved</div>
+    <div class="footer-coords" aria-label="Location coordinates">22.3419° N, 91.8155° E — Chattogram, BD</div>
+  </footer>
 
-  const hamburger = document.getElementById('hamburger');
-  const mobileMenu = document.getElementById('mobileMenu');
-
-  function openMenu() {
-    hamburger.classList.add('open');
-    mobileMenu.style.display = 'flex';
-    requestAnimationFrame(() => mobileMenu.classList.add('open'));
-    document.body.style.overflow = 'hidden';
-  }
-
-  function closeMenu() {
-    hamburger.classList.remove('open');
-    mobileMenu.classList.remove('open');
-    document.body.style.overflow = '';
-    setTimeout(() => { mobileMenu.style.display = 'none'; }, 250);
-  }
-
-  hamburger.addEventListener('click', () => {
-    hamburger.classList.contains('open') ? closeMenu() : openMenu();
-  });
-
-  document.querySelectorAll('.mobile-nav-link').forEach(link => {
-    link.addEventListener('click', closeMenu);
-  });
-</script>
+  <!-- Scripts -->
+  <script src="js/nav.js"></script>
+  <script src="js/animations.js"></script>
 </body>
 </html>

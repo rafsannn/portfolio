@@ -1,0 +1,71 @@
+/* ============================================
+   tokens.css — Design tokens & CSS variables
+   ============================================ */
+
+:root {
+  /* Colors — Background */
+  --color-bg:        #080b0f;
+  --color-bg-2:      #0d1117;
+  --color-bg-3:      #131920;
+
+  /* Colors — Border */
+  --color-border:    rgba(255, 255, 255, 0.07);
+  --color-border-2:  rgba(255, 255, 255, 0.12);
+
+  /* Colors — Text */
+  --color-text:      #e8edf2;
+  --color-muted:     #6b7a8a;
+
+  /* Colors — Accent (teal) */
+  --color-accent:      #4af0c4;
+  --color-accent-dark: #1a7a5e;
+  --color-accent-dim:  rgba(74, 240, 196, 0.08);
+  --color-accent-dim2: rgba(74, 240, 196, 0.15);
+  --color-accent-hover: #6dffd4;
+
+  /* Colors — Semantic */
+  --color-amber: #f5a623;
+  --color-red:   #ff6b6b;
+
+  /* Typography */
+  --font-display: 'Bebas Neue', sans-serif;
+  --font-heading: 'Syne', sans-serif;
+  --font-body:    'DM Sans', sans-serif;
+  --font-mono:    'DM Mono', monospace;
+
+  /* Font sizes */
+  --text-xs:   11px;
+  --text-sm:   12px;
+  --text-base: 16px;
+  --text-lg:   1.05rem;
+  --text-xl:   1.15rem;
+  --text-2xl:  1.6rem;
+  --text-3xl:  2.2rem;
+
+  /* Spacing */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  20px;
+  --space-6:  24px;
+  --space-8:  32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-24: 96px;
+
+  /* Border radius */
+  --radius-sm: 2px;
+  --radius-md: 4px;
+
+  /* Transitions */
+  --transition-fast:   0.2s ease;
+  --transition-medium: 0.3s ease;
+
+  /* Layout */
+  --max-width:      1100px;
+  --nav-height:     68px;
+  --section-pad:    6rem;
+  --page-pad-x:     3rem;
+}
